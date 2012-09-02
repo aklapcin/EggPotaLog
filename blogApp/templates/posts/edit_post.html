@@ -1,0 +1,17 @@
+{% extends "base_admin.html"%}
+{% block title %}Edit post {{post.title}}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="span12">
+
+            <h3>Edit post</h3>
+
+            {% include "posts/_post_form.html" %}
+
+        </div>
+
+    </div>
+</div>
+{%endblock content%}

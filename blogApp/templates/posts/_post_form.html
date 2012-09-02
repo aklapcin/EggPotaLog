@@ -1,0 +1,47 @@
+{% if form.errors %}
+    <p>{{form.non_field_errors}}</p>
+{% endif %}
+
+<form class="form-horizontal" method="post" action="">
+
+    {% csrf_token %}
+    <div class="control-group">
+        {{ form.titleintro.errors }}
+        {{ form.title.label_tag }}
+        <div class="controls">
+            {{ form.title }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form.intro.errors }}
+        {{ form.intro.label_tag }}
+        <div class="controls">
+            {{ form.intro }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form.content.errors }}
+        {{ form.content.label_tag }}
+        <div class="controls">
+            {{ form.content }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form.public.errors }}
+        {{ form.public.label_tag }}
+        <div class=public"controls">
+            {{ form.public }}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="pull-right">
+            <input class="btn btn-primary" type="submit" value="Create" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+    </div>
+
+</form>

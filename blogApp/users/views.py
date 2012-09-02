@@ -150,7 +150,7 @@ def register(request, backend=None, success_url=None, form_class=None,
 
 @csrf_protect
 @never_cache
-def login(request, template_name='registration/login.html',
+def login(request, template_name='users/login.html',
           redirect_field_name=REDIRECT_FIELD_NAME,
           authentication_form=AuthenticationForm,
           current_app=None, extra_context=None):
@@ -158,7 +158,6 @@ def login(request, template_name='registration/login.html',
     Displays the login form and handles the login action.
     """
     redirect_to = request.REQUEST.get(redirect_field_name, '')
-
     if request.method == "POST":
         form = authentication_form(data=request.POST)
         if form.is_valid():
@@ -183,7 +182,6 @@ def login(request, template_name='registration/login.html',
             return HttpResponseRedirect(redirect_to)
     else:
         form = authentication_form(request)
-
     request.session.set_test_cookie()
     context = {
         'form': form,
@@ -191,7 +189,8 @@ def login(request, template_name='registration/login.html',
     }
     if extra_context is not None:
         context.update(extra_context)
-    return TemplateResponse(request, template_name, context)
+    a = TemplateResponse(request, template_name, context)
+    return a
 
 
 class adminIntro(TemplateView):

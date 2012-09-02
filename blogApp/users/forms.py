@@ -64,8 +64,6 @@ class AuthenticationForm(forms.Form):
             self.user_cache = authenticate(email=email, password=password)
             if self.user_cache is None:
                 raise forms.ValidationError(_("Please enter a correct email and password."))
-            elif not self.user_cache.is_active:
-                raise forms.ValidationError(_("This account is inactive."))
 
         # TODO: determine whether this should move to its own method.
         if self.request:

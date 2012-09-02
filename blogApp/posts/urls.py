@@ -4,9 +4,10 @@ from blogApp.posts import views
 
 urlpatterns = patterns(
     '',
-    url(r'add', views.NewPost.as_view(), {}, name='new_post'),
-    url(r'dashboard', views.PostDashboard.as_view(), {}, name='dashboard'),
-    url(r'edit', views.EditPost.as_view(), {}, name='edit_post'),
+    url(r'^admin/add$', views.NewPost.as_view(), {}, name='new_post'),
+    url(r'^admin/dashboard$', views.PostDashboard.as_view(), {}, name='post_dashboard'),
+    url(r'^admin/edit/(?P<post_key>[^/]+)$', views.EditPost.as_view(), {}, name='edit_post'),
+
 )
 
 if settings.DEBUG:

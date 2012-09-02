@@ -26,7 +26,6 @@ class User(db.Model):
     reg_date = db.DateTimeProperty(auto_now_add=True)
     password = db.StringProperty(indexed=False)
     email = db.EmailProperty(required=True)
-    is_active = db.BooleanProperty(default=True)
     terms_accepted = db.BooleanProperty(default=True, indexed=False)
     nick = db.StringProperty()
     last_login = db.DateTimeProperty(auto_now_add=True)
@@ -81,6 +80,12 @@ class User(db.Model):
             self.is_admin = True
             return self
 
+    @classmethod
+    def email_can_be_registered(cls, email):
+        if email in settings.ADMINS_EMAILS:
+            return True
+        return False
+
 
 # modified django-registration's simplebackend
 class Backend(object):
@@ -133,7 +138,7 @@ class Backend(object):
         After registration, redirect to the user's account page.
 
         """
-        return ('dashboard', (), {})
+        return ('post_dashboard', (), {})
 
     def post_activation_redirect(self, request, user):
         raise NotImplementedError

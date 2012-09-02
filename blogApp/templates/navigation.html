@@ -1,0 +1,22 @@
+<ul class="nav mainNav">
+    {% if user.is_authenticated %}
+
+        <li><a href="{% url new_post %}" class="create"><strong>Create new Potato</strong></a></li>
+    {%endif%}
+</ul>
+
+<ul class="nav pull-right">
+    {% if user.is_authenticated %}
+        <li><a href="{% url blog_logout %}">logout</a></li>
+
+
+    {% else %}
+        <li class="login-link">
+            <a href="{% url blog_login %}">Log in</a>
+        </li>
+        <li class="register-link">
+            <a href="{% url blog_register %}">Register</a>
+        </li>
+    {% endif %}
+
+</ul>

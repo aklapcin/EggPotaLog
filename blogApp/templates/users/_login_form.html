@@ -1,0 +1,29 @@
+{% if form.errors %}
+    <p>{{form.non_field_errors}}</p>
+{% endif %}
+
+<form class="form-horizontal" method="post" action="{% url blog_login %}">
+
+    {% csrf_token %}
+    <div class="control-group">
+        {{ form.email.label_tag }}
+        <div class="controls">
+            {{ form.email }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form.password.label_tag }}
+        <div class="controls">
+            {{ form.password }}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="pull-right">
+            <input class="btn btn-primary" type="submit" value="Login" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+    </div>
+
+</form>

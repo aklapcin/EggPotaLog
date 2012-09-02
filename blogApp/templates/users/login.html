@@ -1,0 +1,29 @@
+{% extends "base_admin.html"%}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container">
+    {%if user.is_authenticated%}
+        <div class="row">
+            <div class="span12">
+
+                <p>
+                    You are already logged in as {{user.email}}. If you want to log in with
+                    other account first <a href="{% url blog_logout%}">log out </a>.
+                </p>
+            </div>
+        </div>
+    {%else%}
+        <div class="row">
+            <div class="offset3 span6 login-span">
+
+                <h3>Log in</h3>
+
+                {% include "users/_login_form.html" %}
+
+            </div>
+
+        </div>
+    {% endif %}
+</div>
+{%endblock content%}

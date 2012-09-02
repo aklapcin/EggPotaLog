@@ -1,0 +1,31 @@
+<form class="form-horizontal" method='post' action=''>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="control-group">
+        {{ form.email.errors }}
+        {{ form.email.label_tag }}
+        <div class="controls">
+            {{ form.email }}
+        </div>
+    </div>
+    <div class="control-group">
+        {{ form.password1.errors }}
+        {{ form.password1.label_tag }}
+        <div class="controls">
+            {{ form.password1 }}
+        </div>
+    </div>
+    <div class="control-group">
+        {{ form.password2.errors }}
+        {{ form.password2.label_tag }}
+        <div class="controls">
+            {{ form.password2 }}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="pull-right">
+            <input class="btn btn-primary" type="submit" value="Register" />
+        </div>
+    </div>
+</form>

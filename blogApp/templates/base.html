@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+
+<html lang="en-gb">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+        {% block css %}
+            <link rel="stylesheet" type="text/css" href="/statics/bootstrap/css/bootstrap.css">
+            <link rel="stylesheet" type="text/css" href="/statics/bootstrap/css/bootstrap-responsive.css">
+        {% endblock %}
+
+        {% block custom_css %}
+        {% endblock custom_css%}
+
+        {% block javascript %}
+            <script type="text/javascript" src="/statics/js/jquery-1.7.1.js"></script>
+        {% endblock javascript%}
+
+
+        {% block custom_javascript %}
+        {% endblock %}
+
+        <title>{% block title %}{{ title|default:"EggPotaLog" }}{% endblock %}</title>
+    </head>
+    <body {% block body_style %}{% endblock %} >
+
+        {% block navigation %}
+        {%endblock navigation%}
+
+        {% if messages %}
+        <div class="content content-messages">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+       </div>
+        {% endif %}
+
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <footer class="footer">
+            <div class="content">
+                <div class="container">
+                    <p>&copy; 2012 <a href="http://eggpotalog.appspot.com" target="_blank">Created by <strong>Eggi87</strong></a></p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

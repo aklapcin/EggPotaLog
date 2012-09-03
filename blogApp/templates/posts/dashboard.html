@@ -1,9 +1,62 @@
 {% extends "base_admin.html"%}
+
 {%load post_utils%}
+
+{% block custom_javascript%}
+    <script type="text/javascript" src="{{STATIC_URL}}js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        $().ready(function(){
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                    }
+                }
+            });
+
+            remove_post_1 = function(e){
+                e.preventDefault();
+                var $button = $(e.target);
+                $button.removeClass('stage1');
+                $button.addClass('btn-danger');
+                $button.html("Yes, I want to delete it");
+                $button.off('click', remove_post_1);
+                $button.on('click', remove_post_2);
+            };
+            remove_post_2 = function(e){
+                e.preventDefault();
+                var $button = $(e.target);
+                var url = $button.attr('href');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    success: function(resp){
+                        if (resp.status == "OK"){
+                            window.location.pathname = resp.msg;
+                        }
+                        else{
+                            $button.parent().find(".removal_message").html(resp.msg);
+                            $button.attr("disabled");
+                            $button.off('click', remove_grid_2);
+                        }
+                    }
+
+                })
+            };
+
+            $('.delete_post').on('click', remove_post_1);
+        });
+    </script>
+{% endblock custom_javascript%}
+
 {% block content%}
 
 <div class="row">
-    <div class="span12">
+
+    <div class="span11 offset1">
+
+        <a href="{%url new_post%}" class="btn">New post</a>
         {% if not paginator.objects%}
             <div class="no_posts_alert">
                 No post found
@@ -18,28 +71,24 @@
                                     No
                                 </td>
                                 <td class="title">
-                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-title' per_page=per_page%}"></a>
-                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='title' per_page=per_page%}"></a>
+                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-title' per_page=per_page%}">&darr;</a>
+                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='title' per_page=per_page%}">&uarr;</a>
                                     Post title
                                 </td>
                                 <td class="public">
-                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-published' per_page=per_page%}"></a>
-                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='published' per_page=per_page%}"></a>
+                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-published' per_page=per_page%}">&darr;</a>
+                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='published' per_page=per_page%}">&uarr;</a>
                                     Is published
-
-                                </td>
-                                <td class="comments">
-                                    Comments
                                 </td>
 
-                                <td class="date_created">
-                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-date_created' per_page=per_page%}"></a>
-                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='date_created' per_page=per_page%}"></a>
-                                    Created
+                                <td class="date_published">
+                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-date_published' per_page=per_page%}">&darr;</a>
+                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='date_published' per_page=per_page%}">&uarr;</a>
+                                    Published
                                 </td>
                                 <td class="date_edited">
-                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-last_edited' per_page=per_page%}"></a>
-                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='last_edited' per_page=per_page%}"></a>
+                                    <a class="dsc" href="{%url post_dashboard %}{% q_string order_by='-last_edited' per_page=per_page%}">&darr;</a>
+                                    <a class="asc" href="{%url post_dashboard %}{% q_string order_by='last_edited' per_page=per_page%}">&uarr;</a>
                                     Last Edited
                                 </td>
                                 <td>
@@ -51,14 +100,19 @@
                             {% for post in paginator.objects%}
                             <tr>
                                 <td>{{forloop.counter|add:paginator.start}}</td>
-                                <td><a href= "{% url  edit_post post_key=post.key|to_str %}">{{post.title}}</a></td>
+                                <td>
+                                    {%if post.published %}
+                                        <a href= "{% url show_post post_slug=post.slug %}">{{post.title}}</a>
+                                    {%else%}
+                                        {{post.title}}
+                                    {%endif%}
+                                </td>
                                 <td>{% if post.published%}Yes{%else%}No{%endif%}</td>
-                                <td>{{post.comments.count}}</td>
-                                <td>{{post.date_created}}</td>
+                                <td>{{post.date_published}}</td>
                                 <td>{{post.last_edited}}</td>
 
                                 <td>
-                                    <a href="delete" class="btn">Delete</a>
+                                    <a href="{% url  delete_post post_key=post.key|to_str %}" class="btn stage1 delete_post">Delete</a>
                                     <a href="{% url  edit_post post_key=post.key|to_str %}" class="btn">Edit</a>
                                 </td>
                             </tr>
@@ -77,12 +131,12 @@
                 <ul class="nav nav-tabs dashboard-paginator">
                     {%if paginator.has_next%}
                         <li>
-                            <a class="button_page btn-next" href="{%url dashboard %}{% q_string page=paginator.last_page|add:1 order_by=order_by paginator_id=paginator.paginator_id per_page=per_page%}"></a>
+                            <a class="button_page btn-next" href="{%url post_dashboard %}{% q_string page=paginator.last_page|add:1 order_by=order_by paginator_id=paginator.paginator_id per_page=per_page%}"></a>
                         </li>
                     {% endif%}
                     {%for p in paginator.last_page|get_range reversed %}
                         <li class="{%if p|add:1 == paginator.current_page%} active{%endif%}">
-                            <a class="button_page {% if forloop.first %}first{% endif %}" href="{%url dashboard %}{% q_string page=p|add:1 order_by=order_by paginator_id=paginator.paginator_id per_page=per_page%}"
+                            <a class="button_page {% if forloop.first %}first{% endif %}" href="{%url post_dashboard %}{% q_string page=p|add:1 order_by=order_by paginator_id=paginator.paginator_id per_page=per_page%}"
                             >
                             {{p|add:1}}</a>
                         </li>

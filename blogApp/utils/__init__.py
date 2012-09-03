@@ -1,15 +1,20 @@
-from google.appengine.ext import db
+import json
+
+from django.http import HttpResponse
 
 
-def delete_objects(query):
-        cursor = None
-        while True:
-            q = query
-            if cursor is not None:
-                q = q.with_cursor(start_cursor=cursor)
-            objects = q.fetch(1000)
-            cursor = q.cursor()
-            l = len(objects)
-            db.delete(objects)
-            if l < 1000:
-                break
+def json_response(view):
+    """If user is not logger, redirect to login page
+    """
+    def decorator(request, *args, **kwargs):
+        result = view(request, *args, **kwargs)
+        code = 200
+        if type(result) == dict or type(result) == list:
+            if type(result) == dict:
+                if result.get('code'):
+                    code = result.pop('code')
+            data = json.dumps(result)
+            return HttpResponse(data, mimetype="application/json", status=code)
+        return result
+
+    return decorator

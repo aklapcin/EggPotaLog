@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import patterns, url
 from django.views.generic.simple import direct_to_template
-from django.views.generic import TemplateView
 
 from blogApp.users import forms
 from blogApp.users.views import adminIntro

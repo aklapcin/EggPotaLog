@@ -1,20 +1,5 @@
 {%extends "base.html"%}
-{% block javascript %}
-    {{block.super}}
-    <script type="text/javascript" src="/statics/js/bootstrap/bootstrap-dropdown.js"></script>
-    <script type="text/javascript">
 
-    $().ready(function(){
-        $('.dropdown-toggle').dropdown();
-    });
-    </script>
-
-{% endblock javascript%}
-
-{% block custom_javascript %}
-    <script type="text/javascript" src="/statics/js/underscore.js"></script>
-    <script type="text/javascript" src="/statics/js/backbone.js"></script>
-{% endblock %}
 
 {% block navigation %}
     <div class="navbar">

@@ -1,0 +1,33 @@
+{%extends 'base_public.html'%}
+{% load post_utils%}
+{% block blog_content %}
+
+    <div class="row">
+        <div class="span6 offset3">
+            <div class="post_title">
+                {{post.title}}
+            </div>
+            {%if request.user.is_authenticated%}
+            <a class="post_edit btn" href="{% url edit_post post_key=post.key|to_str%}">
+                Edit
+            </a>
+            {%endif%}
+
+            <p class="post_intro">
+                {{post.intro}}
+            </p>
+
+            <div class ="post_content">
+                {{post.content}}
+            </div>
+
+            <div class="post_author">
+                {{post.user.email}}
+            </div>
+
+            <div class="nav">
+                <a href="{%url main_page%}">Back to main page</a>
+            </div>
+        </div>
+    </div>
+{% endblock blog_content%}

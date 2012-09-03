@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html lang="en-gb">
+<html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -13,7 +13,7 @@
         {% endblock custom_css%}
 
         {% block javascript %}
-            <script type="text/javascript" src="/statics/js/jquery-1.7.1.js"></script>
+            <script type="text/javascript" src="{{STATIC_URL}}js/lib/jquery-1.7.1.js"></script>
         {% endblock javascript%}
 
 
@@ -27,15 +27,17 @@
         {% block navigation %}
         {%endblock navigation%}
 
-        {% if messages %}
-        <div class="content content-messages">
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-       </div>
-        {% endif %}
+        {% block messages%}
+            {% if messages %}
+                <div class="content content-messages">
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+               </div>
+            {% endif %}
+        {%endblock messages%}
 
         <div class="content">
             {% block content %}
@@ -45,7 +47,16 @@
         <footer class="footer">
             <div class="content">
                 <div class="container">
-                    <p>&copy; 2012 <a href="http://eggpotalog.appspot.com" target="_blank">Created by <strong>Eggi87</strong></a></p>
+                    <p>
+                        {%if user.is_authenticated%}
+                            Hello <a href="{%url post_dashboard%}">admin</a> {{request.user.email}}
+                        {%else%}
+                            <a href="{% url blog_login %}">Login</a> or <a href="{% url blog_register%}">Register</a>
+                        {%endif%}
+
+                        &copy; 2012 <a href="http://eggpotalog.appspot.com" target="_blank">Created by <strong>Eggi87</strong></a>
+
+                    </p>
                 </div>
             </div>
         </footer>

@@ -1,0 +1,44 @@
+{%extends "base_public.html"%}
+{% load post_utils%}
+
+{% block blog_content %}
+
+    <div class="row">
+        <div class="span6 offset3">
+            {% if not paginator.objects %}
+                <p>Sorry, no posts so far</p>
+            {% else %}
+
+                {% for post in paginator.objects%}
+                    <div class="post_entry">
+                        <div class="post_entry_title">
+                            <a href= "{% url  show_post post_slug=post.slug %}">{{post.title}}</a>
+                        </div>
+                        <div class="post_entry_date">
+                            {{post.date_published}}
+                        </div>
+                    </div>
+                {% endfor%}
+
+
+                <ul class="nav nav-tabs dashboard-paginator">
+                    {%if paginator.has_next%}
+                        <li>
+                            <a class="button_page btn-next" href="{%url main_page %}{% q_string page=paginator.last_page|add:1 paginator_id=paginator.paginator_id%}"></a>
+                        </li>
+                    {% endif%}
+
+                    {% for p in paginator.last_page|get_range %}
+                        <li class="{% if p|add:1 == paginator.current_page %} active {% endif%}">
+                            <a class="button_page" href="{%url main_page %}{% q_string page=p|add:1 paginator_id=paginator.paginator_id%}">
+                                {{p|add:1}}
+                            </a>
+                        </li>
+                    {% endfor%}
+                </ul>
+
+            {% endif%}
+
+        </div>
+    </div>
+{% endblock blog_content%}

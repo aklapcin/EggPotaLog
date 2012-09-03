@@ -14,6 +14,15 @@
     </div>
 
     <div class="control-group">
+        {{ form.slug.errors }}
+        {{ form.slug.label_tag }}
+        <div class="controls">
+            {{ form.slug }}
+        </div>
+    </div>
+
+
+    <div class="control-group">
         {{ form.intro.errors }}
         {{ form.intro.label_tag }}
         <div class="controls">

@@ -39,7 +39,7 @@ django.contrib.sessions.backends.cache?
 """
 
 SESSION_ENGINE = "appengine_sessions.backends.cached_db"
-
+LOGIN_REDIRECT_URL = "/admin/dashboard"
 AUTHENTICATION_BACKENDS = (
     'blogApp.users.models.Backend',
     )
@@ -172,3 +172,4 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+LOGIN_URL = '/admin/login/'

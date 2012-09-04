@@ -16,10 +16,9 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from django.views.generic import TemplateView
 
-from google.appengine.ext import deferred
 
 from blogApp.users.models import User
 from blogApp.users.forms import AuthenticationForm
@@ -126,16 +125,17 @@ def register(request, backend=None, success_url=None, form_class=None,
                 logging.error("RegistrationError: %s" % e.message)
                 #FIXME: add msg for user explaining an error occured
             else:
+                new_user.backend = 'blogApp.users.models.Backend'
+                auth_login(request, new_user)
+                new_user.last_login = datetime.datetime.now()
+                new_user.put()
                 if success_url is None:
                     to, args, kwargs = backend.post_registration_redirect(request, new_user)
                     return redirect(to, *args, **kwargs)
                 else:
                     return redirect(success_url)
     else:
-        data = None
-        if hasattr(form_class, 'initial_from_request'):
-            data = form_class.initial_from_request(request)
-        form = form_class(initial=data)
+        form = form_class()
 
     if extra_context is None:
         extra_context = {}

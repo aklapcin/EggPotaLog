@@ -5,15 +5,20 @@
 {% block content %}
 
     {%block blog_title%}
-    <div class="row">
-        <div class="span10 offset2">
-            <h1>Blog Name</h1>
-            <p>blog surname</p>
+        <div class="row">
+            <div class="span10 offset2">
+                <div class="blog_title">
+                    <a href="/">
+                        <h1>Blog Name</h1>
+                        <p class="lead">blog surname</p>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
     {%endblock blog_title%}
 
     {% block blog_content %}
 
     {% endblock blog_content%}
+
 {% endblock content%}

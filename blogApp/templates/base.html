@@ -7,6 +7,7 @@
         {% block css %}
             <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/bootstrap.css">
             <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css">
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/blog.css">
         {% endblock %}
 
         {% block custom_css %}
@@ -24,40 +25,40 @@
     </head>
     <body {% block body_style %}{% endblock %} >
 
-        {% block navigation %}
-        {%endblock navigation%}
+        <div class='whole_content'>
+            {% block navigation %}
+            {%endblock navigation%}
 
-        {% block messages%}
-            {% if messages %}
-                <div class="content content-messages">
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-               </div>
-            {% endif %}
-        {%endblock messages%}
+            {% block messages%}
+                {% if messages %}
+                    <div class="content content-messages">
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <div class="{%if messages.tags%}{{ message.tags }}{% endif %} alert alert-block alert-info">{{ message }}</div>
+                            {% endfor %}
+                        </ul>
+                   </div>
+                {% endif %}
+            {%endblock messages%}
 
-        <div class="content">
-            {% block content %}
-            {% endblock %}
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
 
         <footer class="footer">
-            <div class="content">
-                <div class="container">
-                    <p>
-                        {%if user.is_authenticated%}
-                            Hello <a href="{%url post_dashboard%}">admin</a> {{request.user.email}}
-                        {%else%}
-                            <a href="{% url blog_login %}">Login</a> or <a href="{% url blog_register%}">Register</a>
-                        {%endif%}
+            <div class="container">
+                <p>
+                    {%if user.is_authenticated%}
+                        Hello <a href="{%url post_dashboard%}">admin</a> {{request.user.email}}
+                    {%else%}
+                        <a href="{% url blog_login %}">Login</a> or <a href="{% url blog_register%}">Register</a>
+                    {%endif%}
 
-                        &copy; 2012 <a href="http://eggpotalog.appspot.com" target="_blank">Created by <strong>Eggi87</strong></a>
+                    &copy; 2012 <a href="http://eggpotalog.appspot.com" target="_blank">Created by <strong>Eggi87</strong></a>
 
-                    </p>
-                </div>
+                </p>
             </div>
         </footer>
     </body>

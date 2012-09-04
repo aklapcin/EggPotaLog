@@ -1,13 +1,13 @@
 <ul class="nav mainNav">
     {% if user.is_authenticated %}
 
-        <li><a href="{% url new_post %}" class="create"><strong>Create new Potato</strong></a></li>
+        <li><a href="{% url new_post %}" class="create"><strong>New Post</strong></a></li>
     {%endif%}
 </ul>
 
 <ul class="nav pull-right">
     {% if user.is_authenticated %}
-        <li><a href="{% url blog_logout %}">logout</a></li>
+        <li><a href="{% url blog_logout %}">Log out</a></li>
 
 
     {% else %}

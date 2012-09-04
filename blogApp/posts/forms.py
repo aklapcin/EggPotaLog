@@ -4,11 +4,16 @@ from blogApp.posts.models import Post
 
 
 class PostForm(forms.Form):
-    content = forms.CharField(widget=forms.Textarea, required=False)
-    title = forms.CharField(required=False)
-    slug = forms.SlugField(required=False)
-    intro = forms.CharField(widget=forms.Textarea, required=False)
-    public = forms.BooleanField(required=False)
+    content = forms.CharField(widget=forms.Textarea(attrs={'rows': 50, 'cols': 50}),
+        required=False, help_text="Content of post")
+    title = forms.CharField(required=False, help_text="Title of post")
+    slug = forms.SlugField(required=False,
+        help_text="Slug for post, will be used in post url")
+    intro = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50}), \
+        required=False, help_text="Introduction, first paragraph")
+    public = forms.BooleanField(required=False, \
+        help_text="Check it, if you want to publish post")
+    next = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')

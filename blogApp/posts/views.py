@@ -59,6 +59,19 @@ class ShowPost(TemplateView):
         return render_to_response('posts/show_post.html', {}, context_instance=ctx)
 
 
+class PreviewPost(TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        post_key = kwargs.get('post_key')
+        ctx = RequestContext(request)
+        query = Post.get(post_key)
+        if not query:
+            raise Http404
+        ctx['post'] = query
+
+        return render_to_response('posts/show_post.html', {}, context_instance=ctx)
+
+
 class NewPost(TemplateView):
     template_name = "posts/new_post.html"
 
@@ -80,8 +93,15 @@ class NewPost(TemplateView):
             else:
                 msg = "New blog post have bee created."
 
-            messages.info(request, msg)
-            return HttpResponseRedirect(reverse('post_dashboard'))
+            next = form.cleaned_data.get('next')
+            if next == 'dashboard' or not next:
+                messages.info(request, msg)
+                return HttpResponseRedirect(reverse('post_dashboard'))
+            if next == 'here':
+                messages.info(request, msg)
+                return HttpResponseRedirect(reverse('edit_post', kwargs={'post_key': str(post.key())}))
+            if next == 'preview':
+                return HttpResponseRedirect(reverse('preview_post', kwargs={'post_preview': str(post.key())}))
         else:
             ctx = RequestContext(request)
             ctx['form'] = form
@@ -114,14 +134,22 @@ class EditPost(TemplateView):
         form = PostForm(request.POST, request=request, instance=post)
         if form.is_valid():
             post = form.save(commit=True)
+
             if post.title:
                 msg = "Blog post %s have been edited" % post.title
                 msg += post.published and " and published" or "."
             else:
                 msg = "Blog post have been edited."
 
-            messages.info(request, msg)
-            return HttpResponseRedirect(reverse('post_dashboard'))
+            next = form.cleaned_data.get('next')
+            if next == 'dashboard' or not next:
+                messages.info(request, msg)
+                return HttpResponseRedirect(reverse('post_dashboard'))
+            if next == 'here':
+                messages.info(request, msg)
+                return HttpResponseRedirect(reverse('edit_post', kwargs={'post_key': str(post.key())}))
+            if next == 'preview':
+                return HttpResponseRedirect(reverse('preview_post', kwargs={'post_preview': str(post.key())}))
         else:
             ctx = RequestContext(request)
             ctx['form'] = form

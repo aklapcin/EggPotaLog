@@ -1,0 +1,95 @@
+body, html{
+    height:100%;
+}
+.whole_content{
+    min-height:100%;
+}
+.footer{
+    height:40px;
+    margin-top:-40px;
+}
+
+.footer{
+    font-size: xx-small;
+    text-align: center;
+}
+
+.blog_title a{
+    color: #555;
+}
+.blog_title a:hover{
+    color: #D9230F;
+    text-decoration: none;
+}
+/*main page*/
+.posts_list{
+    min-height: 420px;
+    margin-top: 40px;
+}
+
+.post_entry_title a{
+    color: #533;
+}
+.post_entry_title{
+    font-family: 'Josefin Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+
+}
+.post_entry_title a{
+    color: #533;
+}
+.post_entry_date{
+    font-size: small;
+
+}
+.post_entry_title a:hover{
+    color: #D9230F;
+    text-decoration: none;
+}
+div.post_entry_title, div.post_entry_date {
+    display: inline;
+}
+
+/*specific posts*/
+.whole_post{
+    min-height: 300px;
+}
+.post_date{
+    font-size: x-small;
+    float: right;
+}
+.post_intro{
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.post_intro p{
+    text-indent: 10%;
+}
+
+.post_content{
+    line-height: 150%;
+}
+
+.post_author{
+    text-align: right;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.nav_main_page{
+    text-align: center;
+    margin-top: 30px;
+}
+
+/*dashboard*/
+.dashboard_head{
+    font-weight: bold
+}
+
+/*post form*/
+.post_form textarea{
+    width: 600px;
+}

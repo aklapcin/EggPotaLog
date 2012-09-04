@@ -1,56 +1,95 @@
-{% if form.errors %}
-    <p>{{form.non_field_errors}}</p>
-{% endif %}
 
-<form class="form-horizontal" method="post" action="">
+<form class="form-horizontal well post_form" method="post" action="">
+    {% if form.non_field_errors %}
+        <div class="alert">{{form.non_field_errors}}</div>
+    {% endif %}
 
-    {% csrf_token %}
-    <div class="control-group">
-        {{ form.titleintro.errors }}
-        {{ form.title.label_tag }}
-        <div class="controls">
-            {{ form.title }}
+    <fieldset>
+        <legend>Content</legend>
+        {% csrf_token %}
+        <div class="control-group {%if form.title.errors%}error{%endif%}">
+            {{ form.title.label_tag }}
+            <div class="controls">
+                <p class="help-block">
+                    {{ form.title.help_text }}
+                </p>
+                {{ form.title }}
+                <span class="help-inline">{{form.title.errors  }}</span>
+            </div>
+
         </div>
-    </div>
 
-    <div class="control-group">
-        {{ form.slug.errors }}
-        {{ form.slug.label_tag }}
-        <div class="controls">
-            {{ form.slug }}
+        <div class="control-group {%if form.slug.errors%}error{%endif%}">
+
+            {{ form.slug.label_tag }}
+            <div class="controls">
+                <p class="help-block">
+                    {{ form.slug.help_text }}
+                </p>
+                {{ form.slug }}
+                <span class="help-inline">{{ form.slug.errors }}</span>
+            </div>
         </div>
-    </div>
 
 
-    <div class="control-group">
-        {{ form.intro.errors }}
-        {{ form.intro.label_tag }}
-        <div class="controls">
-            {{ form.intro }}
+        <div class="control-group {%if form.intro.errors%}error{%endif%}">
+            {{ form.intro.label_tag }}
+            <div class="controls">
+                <p class="help-block">
+                    {{ form.intro.help_text }}
+                </p>
+                {{ form.intro }}
+                <span class="help-inline">{{ form.intro.errors }}</span>
+
+            </div>
         </div>
-    </div>
 
-    <div class="control-group">
-        {{ form.content.errors }}
-        {{ form.content.label_tag }}
-        <div class="controls">
-            {{ form.content }}
+        <div class="control-group {%if form.content.errors%}error{%endif%}">
+            {{ form.content.label_tag }}
+            <div class="controls">
+                <p class="help-block">
+                    {{ form.content.help_text }}
+                </p>
+                {{ form.content }}
+                <span class="help-inline">{{ form.content.errors }}</span>
+
+            </div>
         </div>
-    </div>
+    </fieldset>
+    <fieldset>
+        <legend>Publication</legend>
+        <div class="control-group {%if form.public.errors%}error{%endif%}">
+            {{ form.public.label_tag }}
+            <div class=public"controls">
+                <p class="help-block">
+                    {{ form.public.help_text }}
+                </p>
+                {{ form.public }}
+                <span class="help-inline">{{form.public.errors  }}</span>
 
-    <div class="control-group">
-        {{ form.public.errors }}
-        {{ form.public.label_tag }}
-        <div class=public"controls">
-            {{ form.public }}
+            </div>
         </div>
-    </div>
-
+        {{form.next.as_hidden}}
+    </fieldset>
     <div class="form-actions">
         <div class="pull-right">
-            <input class="btn btn-primary" type="submit" value="Create" />
-            <input type="hidden" name="next" value="{{ next }}" />
+            <input class="btn btn-primary btn-success to_dashboard" type="submit" value="{{button_value}}, go to dashboard" />
+            <input class="btn btn-primary btn-info to_here" type="submit" value="{{button_value}}, stay here" />
+            <input class="btn btn-primary to_preview" type="submit" value="{{button_value}}, go to preview" />
         </div>
     </div>
+    <script type="text/javascript">
+        $().ready(function(){
+            $('.to_dashboard').click(function(e){
+                $('.post_form').find('#id_next').val('dashboard');
+            });
+            $('.to_here').click(function(e){
+                $('.post_form').find('#id_next').val('here');
+            });
+            $('.to_preview').click(function(e){
+                $('.post_form').find('#id_next').val('preview');
+            });
 
+        });
+    </script>
 </form>

@@ -6,6 +6,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.MainPage.as_view(), {}, name='main_page'),
     url(r'^(?P<post_slug>[^/]+)$', views.ShowPost.as_view(), {}, name='show_post'),
+    url(r'^admin/preview/(?P<post_key>[^/]+)$', views.PreviewPost.as_view(), {}, name='preview_post'),
     url(r'^admin/add$', views.NewPost.as_view(), {}, name='new_post'),
     url(r'^admin/dashboard$', views.PostDashboard.as_view(), {}, name='post_dashboard'),
     url(r'^admin/edit/(?P<post_key>[^/]+)$', views.EditPost.as_view(), {}, name='edit_post'),

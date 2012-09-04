@@ -12,11 +12,7 @@
                     {{post.date_published|date:"j F Y"}}
 
                 </div>
-                {%if request.user.is_authenticated%}
-                <a class="post_edit btn" href="{% url edit_post post_key=post.key|to_str%}">
-                    Edit
-                </a>
-                {%endif%}
+
 
                 <div class="post_intro">
                     <p>
@@ -35,6 +31,11 @@
 
             <div class="nav_main_page">
                 <a href="{%url main_page%}">Back to main page</a>
+                {%if user.is_authenticated%}
+                    <a class="post_edit btn btn-small" href="{% url edit_post post_key=post.key|to_str%}">
+                        Edit
+                    </a>
+                {%endif%}
             </div>
         </div>
     </div>

@@ -72,6 +72,11 @@ div.post_entry_title, div.post_entry_date {
     line-height: 150%;
 }
 
+.post_content p{
+    text-indent: 10%;
+}
+
+
 .post_author{
     text-align: right;
     font-style: italic;

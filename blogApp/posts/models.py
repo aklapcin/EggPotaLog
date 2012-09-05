@@ -20,7 +20,8 @@ class Post(db.Model):
         to html tags"""
         if not self.content:
             return ""
-        paragraphs = re.split('\n{2,}', self.content)
+        content = self.content.replace('\r', '')
+        paragraphs = re.split('\n{2,}', content)
         paragraphs_joined = "</p><p>".join(paragraphs)
         paragraphs = "<p>" + paragraphs_joined + "</p>"
 

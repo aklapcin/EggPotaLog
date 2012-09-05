@@ -18,7 +18,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 ADMINS_EMAILS = (
-    'eggi87@gmail.com'
+    'eggi87@gmail.com',
 )
 # A custom cache backend using AppEngine's memcached
 #CACHES = {

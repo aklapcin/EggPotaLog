@@ -10,9 +10,13 @@
                 </div>
                 <div class="post_date">
                     {{post.date_published|date:"j F Y"}}
-
                 </div>
 
+                <div class="nav_main_page">
+                    {%if user.is_authenticated%}
+                            <a href="{% url edit_post post_key=post.key|to_str%}">Edit</a>
+                    {%endif%}
+                </div>
 
                 <div class="post_intro">
                     <p>
@@ -21,7 +25,7 @@
                 </div>
 
                 <div class="post_content">
-                    {{post.content}}
+                    {% post_content post%}
                 </div>
 
                 <div class="post_author">
@@ -29,14 +33,7 @@
                 </div>
             </div>
 
-            <div class="nav_main_page">
-                <a href="{%url main_page%}">Back to main page</a>
-                {%if user.is_authenticated%}
-                    <a class="post_edit btn btn-small" href="{% url edit_post post_key=post.key|to_str%}">
-                        Edit
-                    </a>
-                {%endif%}
-            </div>
+
         </div>
     </div>
 {% endblock blog_content%}

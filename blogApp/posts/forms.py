@@ -5,7 +5,7 @@ from blogApp.posts.models import Post
 
 class PostForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea(attrs={'rows': 50, 'cols': 50}),
-        required=False, help_text="Content of post")
+        required=False, help_text="Content of post. Separate paragras with at least 1 empty line.")
     title = forms.CharField(required=False, help_text="Title of post")
     slug = forms.SlugField(required=False,
         help_text="Slug for post, will be used in post url")

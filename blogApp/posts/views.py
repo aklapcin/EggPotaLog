@@ -101,7 +101,7 @@ class NewPost(TemplateView):
                 messages.info(request, msg)
                 return HttpResponseRedirect(reverse('edit_post', kwargs={'post_key': str(post.key())}))
             if next == 'preview':
-                return HttpResponseRedirect(reverse('preview_post', kwargs={'post_preview': str(post.key())}))
+                return HttpResponseRedirect(reverse('preview_post', kwargs={'post_key': str(post.key())}))
         else:
             ctx = RequestContext(request)
             ctx['form'] = form

@@ -20,3 +20,8 @@ def q_string(**kwargs):
         if v is not None:
             result[k] = v
     return "?" + urllib.urlencode(result)
+
+
+@register.simple_tag
+def post_content(post):
+    return post.formated_content()
